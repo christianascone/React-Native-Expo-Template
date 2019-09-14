@@ -1,0 +1,315 @@
+openapi: 3.0.0
+info:
+  title: 'Backend API'
+  description: 'API Documentation for Backend Project'
+  version: '0.1'
+servers:
+  -
+    url: 'http://backend.test/'
+paths:
+  /api/users:
+    get:
+      tags:
+        - Users
+      responses:
+        '200':
+          description: 'List of users'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+      security:
+        -
+          passport: []
+    post:
+      tags:
+        - Users
+      requestBody:
+        description: 'User to add'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: 'Create a user'
+      security:
+        -
+          passport: []
+  '/api/users/{id}':
+    get:
+      tags:
+        - Users
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'User id'
+          required: true
+          schema:
+            required:
+              - id
+            type: string
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security:
+        -
+          passport: []
+    put:
+      tags:
+        - Users
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'User id'
+          required: true
+          schema:
+            required:
+              - id
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: 'Update a user'
+      security:
+        -
+          passport: []
+    delete:
+      tags:
+        - Users
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'User id'
+          required: true
+          schema:
+            required:
+              - id
+            type: integer
+      responses:
+        '200':
+          description: 'Delete user by id'
+      security:
+        -
+          passport: []
+  '/api/users/exists/{email}':
+    get:
+      tags:
+        - Users
+      parameters:
+        -
+          name: email
+          in: path
+          description: 'User email'
+          required: true
+          schema:
+            required:
+              - email
+            type: string
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                properties:
+                  exists: { type: boolean }
+                type: object
+      security:
+        -
+          passport: []
+  /api/user_tokens:
+    get:
+      tags:
+        - UserTokens
+      responses:
+        '200':
+          description: 'List of user_tokens'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserToken'
+      security:
+        -
+          passport: []
+    post:
+      tags:
+        - UserTokens
+      requestBody:
+        description: 'UserToken to add'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserToken'
+      responses:
+        '200':
+          description: 'Create a user_token'
+      security:
+        -
+          passport: []
+  '/api/user_tokens/{id}':
+    get:
+      tags:
+        - UserTokens
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'UserToken id'
+          required: true
+          schema:
+            required:
+              - id
+            type: string
+      responses:
+        '200':
+          description: UserToken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserToken'
+      security:
+        -
+          passport: []
+    put:
+      tags:
+        - UserTokens
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'UserToken id'
+          required: true
+          schema:
+            required:
+              - id
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserToken'
+      responses:
+        '200':
+          description: 'Update a user_token'
+      security:
+        -
+          passport: []
+    delete:
+      tags:
+        - UserTokens
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'UserToken id'
+          required: true
+          schema:
+            required:
+              - id
+            type: integer
+      responses:
+        '200':
+          description: 'Delete user_token by id'
+      security:
+        -
+          passport: []
+  /oauth/token:
+    post:
+      tags:
+        - Oauth
+      requestBody:
+        description: 'Token request'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OAuthRequest'
+      responses:
+        '200':
+          description: 'Request token'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthResponse'
+components:
+  schemas:
+    UserTokenOs:
+      type: string
+      default: ANDROID
+      enum:
+        - ANDROID
+        - IOS
+    User:
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        email:
+          type: string
+      type: object
+    UserToken:
+      properties:
+        id:
+          type: number
+        token:
+          type: string
+        os:
+          $ref: '#/components/schemas/UserTokenOs'
+      type: object
+    OAuthRequest:
+      properties:
+        grant_type:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        client_id:
+          type: string
+        client_secret:
+          type: string
+      type: object
+    OAuthResponse:
+      properties:
+        token_type:
+          type: string
+        expires_in:
+          type: string
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+      type: object
+  securitySchemes:
+    passport:
+      type: oauth2
+      flows:
+        password:
+          authorizationUrl: /oauth/authorize
+          tokenUrl: /oauth/token
+          refreshUrl: /oauth/token/refresh
+tags:
+  -
+    name: Oauth
+    description: 'Login/Register functions'

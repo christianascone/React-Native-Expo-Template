@@ -1,0 +1,56 @@
+{
+  "expo": {
+    "name": "React-native-expo-template",
+    "slug": "react-native-expo-template",
+    "privacy": "public",
+    "sdkVersion": "34.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./app/assets/icon.png",
+    "splash": {
+      "image": "./app/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.christianascone.react"
+    },
+    "web": {
+      "build": {
+        "babel": {
+          "include": [
+            "node_modules/sentry-expo",
+            "node_modules/@sentry",
+            "node_modules/react-native"
+          ]
+        }
+      }
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "Christian Ascone",
+            "project": "React-native-expo-template",
+            "authToken": "your auth token here"
+          }
+        }
+      ]
+    }
+  }
+}
