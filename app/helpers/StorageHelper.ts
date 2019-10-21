@@ -9,9 +9,18 @@
 
 import {AsyncStorage} from "react-native";
 import {BaseAPI} from "../services/src";
+import {Logger} from "./Logger";
+
+const CLASS_NAME = 'StorageHelper';
+
+const STORE_KEY = '@ReactStore';
 
 const ACCESS_TOKEN_KEY = 'ACCESS_TOKEN';
 const REFRESH_TOKEN_KEY = 'REFRESH_TOKEN';
+
+function getStoreKey(key) {
+    return `${STORE_KEY}:${key}`;
+}
 
 /**
  * Stores a value with key in storage
@@ -21,9 +30,9 @@ const REFRESH_TOKEN_KEY = 'REFRESH_TOKEN';
  */
 export async function store(key, value) {
     try {
-        await AsyncStorage.setItem(key, value);
+        await AsyncStorage.setItem(getStoreKey(key), value);
     } catch (error) {
-        console.log("Error: " + error);
+        Logger.log(CLASS_NAME, "Error: " + error);
     }
 }
 
@@ -34,12 +43,12 @@ export async function store(key, value) {
  */
 export async function read(key) {
     try {
-        const value = await AsyncStorage.getItem(key);
+        const value = await AsyncStorage.getItem(getStoreKey(key));
         if (value !== null)
             return value;
-        console.log("Not found");
+        Logger.log(CLASS_NAME, "Not found");
     } catch (error) {
-        console.log("Error: " + error);
+        Logger.log(CLASS_NAME, "Error: " + error);
     }
 }
 
@@ -50,9 +59,9 @@ export async function read(key) {
  */
 export async function remove(key) {
     try {
-        await AsyncStorage.removeItem(key);
+        await AsyncStorage.removeItem(getStoreKey(key));
     } catch (error) {
-        console.log("Error: " + error);
+        Logger.log(CLASS_NAME, "Error: " + error);
     }
 }
 
@@ -78,7 +87,8 @@ export function readAccessToken() {
  * @returns {Promise<void>}
  */
 export function removeAccessToken() {
-    return remove(ACCESS_TOKEN_KEY);
+    remove(ACCESS_TOKEN_KEY);
+    BaseAPI.deleteToken();
 }
 
 /**
