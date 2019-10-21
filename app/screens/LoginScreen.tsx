@@ -12,7 +12,7 @@ import {ScrollView, View,} from 'react-native';
 import {i18n} from "../i18n/i18n";
 import loginScreenStyle from "../styles/LoginScreenStyle";
 import globalScreenStyle from "../styles/GlobalStyle";
-import {showSimpleAlert} from "../helpers/AlertHelper";
+import {AlertHelper} from "../helpers/AlertHelper";
 import * as StorageHelper from "../helpers/StorageHelper";
 import Loader, {LoaderState} from "../helpers/LoaderHelper";
 import {AvenirBookUnderlinedText, AvenirLightGreyText, AvenirMediumPrimaryText} from "../components/StyledText";
@@ -84,7 +84,7 @@ function checkPassword(context, text) {
  */
 function openNextPage(context) {
     if (!context.state.passwordValid) {
-        showSimpleAlert(i18n.t('error'), i18n.t('errors.empty_password'));
+        AlertHelper.showSimpleAlert(i18n.t('error'), i18n.t('errors.empty_password'));
         return;
     }
 
@@ -103,10 +103,10 @@ function openNextPage(context) {
             StorageHelper.storeRefreshToken(resp.refreshToken);
             // TODO: Go to dashboard
         } else {
-            showSimpleAlert(i18n.t('error'), i18n.t('errors.wrong_credentials_error'));
+            AlertHelper.showSimpleAlert(i18n.t('error'), i18n.t('errors.wrong_credentials_error'));
         }
     }).catch((error) => {
         console.log("Ko: " + error);
-        showSimpleAlert(i18n.t('error'), i18n.t('errors.wrong_credentials_error'));
+        AlertHelper.showSimpleAlert(i18n.t('error'), i18n.t('errors.wrong_credentials_error'));
     });
 }

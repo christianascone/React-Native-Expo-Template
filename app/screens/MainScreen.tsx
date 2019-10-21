@@ -18,7 +18,7 @@ import {TextInputBlock} from "../components/TextInputBlock";
 import {ConfirmButton} from "../components/ConfirmButton";
 import {LogoImage} from "../components/Images/LogoImage";
 import {validateEmail} from "../modules/Validator";
-import {showSimpleAlert} from "../helpers/AlertHelper";
+import {AlertHelper} from "../helpers/AlertHelper";
 import {UsersApi} from "../services/src/apis";
 import Loader, {LoaderState} from "../helpers/LoaderHelper";
 import {NavigationProps, openLogin} from "../helpers/NavigationHelper";
@@ -100,7 +100,7 @@ function openNextPage(context) {
     }
 
     if (!context.state.emailValid) {
-        showSimpleAlert(i18n.t('error'), i18n.t('errors.invalid_email'));
+        AlertHelper.showSimpleAlert(i18n.t('error'), i18n.t('errors.invalid_email'));
         return;
     }
 

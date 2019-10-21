@@ -21,9 +21,19 @@ const en = {
     },
     error: 'Error',
     errors: {
+        something_went_wrong: 'Something went wrong.',
         invalid_email: 'Invalid email',
         empty_password: 'Empty password',
         wrong_credentials_error: 'Wrong credentials.',
+    },
+    alerts: {
+        attention: 'Attention',
+        are_you_sure: 'Are you sure?',
+        yes: 'Yes',
+        no: 'No',
+        replace: 'Replace',
+        delete: 'Delete',
+        cancel: 'Cancel',
     },
     inputs: {
         mail_address: 'Mail address',
@@ -46,9 +56,19 @@ const it = {
     },
     error: 'Errore',
     errors: {
+        something_went_wrong: 'Qualcosa è andato storto.',
         invalid_email: 'Email non valida',
         empty_password: 'Password vuota',
         wrong_credentials_error: 'Credenziali errate.',
+    },
+    alerts: {
+        attention: 'Attenzione',
+        are_you_sure: 'Sei sicuro?',
+        yes: 'Si',
+        no: 'No',
+        replace: 'Cambia',
+        delete: 'Cancella',
+        cancel: 'Annulla',
     },
     inputs: {
         mail_address: 'Indirizzo email',
