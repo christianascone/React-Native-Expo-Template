@@ -1,0 +1,72 @@
+{
+  "expo": {
+    "extra": {
+      "warning": "<WARNING>"
+    },
+    "name": "React-native-expo-template",
+    "slug": "react-native-expo-template",
+    "privacy": "public",
+    "sdkVersion": "34.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./app/assets/icon.png",
+    "splash": {
+      "image": "./app/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.christianascone.react",
+      "icon": "./app/assets/icon.ios.png",
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "<IOS_GOOGLE_API_KEY>"
+      }
+    },
+    "android": {
+      "package": "com.christianascone.react",
+      "icon": "./app/assets/icon.android.png",
+      "config": {
+        "googleMaps": {
+          "apiKey": "<ANDROID_GOOGLE_API_KEY>"
+        }
+      },
+      "permissions": [
+        "CAMERA",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "CAMERA_ROLL"
+      ]
+    },
+    "web": {
+      "build": {
+        "babel": {
+          "include": [
+            "node_modules/sentry-expo",
+            "node_modules/@sentry",
+            "node_modules/react-native"
+          ]
+        }
+      }
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {}
+        }
+      ]
+    }
+  }
+}
