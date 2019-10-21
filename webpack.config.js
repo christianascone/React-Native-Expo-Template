@@ -1,6 +1,10 @@
+const web_environment = require("./app/environments/webEnvironment");
+
 const createExpoWebpackConfig = require("@expo/webpack-config");
 const path = require("path");
 const merge = require("webpack-merge");
+const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = async function(env, argv) {
     const config = await createExpoWebpackConfig(env, argv);
@@ -10,9 +14,16 @@ module.exports = async function(env, argv) {
             alias: {
                 "react-native/Libraries/Renderer/shims/ReactNativePropRegistry":
                     "react-native-web/dist/modules/ReactNativePropRegistry",
-                "react-native": "react-native-web"
+                "react-native": "react-native-web",
+                'react-native-maps': 'react-native-web-maps',
             }
         },
+            plugins: [
+                // Add variables to the `index.html`
+                new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
+                    GOOGLE_API_KEY: web_environment.googleApiKey,
+                }),
+            ],
         module: {
             rules: [
                 {
@@ -21,11 +32,13 @@ module.exports = async function(env, argv) {
                         loader: "babel-loader",
                         options: {
                             presets: ["babel-preset-expo"],
-                            plugins: ["@babel/plugin-proposal-class-properties"],
+                            plugins: ["@babel/plugin-proposal-class-properties",
+                                ],
                             cacheDirectory: true
                         }
                     },
                     include: [
+                        path.resolve('./'),
                         path.resolve("node_modules/sentry-expo"),
                         path.resolve("node_modules/@sentry"),
                         path.resolve("node_modules/react-native"),
