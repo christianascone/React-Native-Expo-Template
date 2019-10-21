@@ -1,4 +1,8 @@
 // tslint:disable
+import {environment} from "../../environments/environment";
+import {LoaderState, startLoader, stopLoader} from "../../helpers/LoaderHelper";
+import {Component} from "react";
+
 /**
  * Backend API
  * API Documentation for Backend Project
@@ -12,7 +16,7 @@
  */
 
 
-export const BASE_PATH = "http://backend.test".replace(/\/+$/, "");
+export const BASE_PATH = environment.apiUrl.replace(/\/+$/, "");
 
 const isBlob = (value: any) => typeof Blob !== 'undefined' && value instanceof Blob;
 
@@ -20,11 +24,27 @@ const isBlob = (value: any) => typeof Blob !== 'undefined' && value instanceof B
  * This is the base class for all generated API classes.
  */
 export class BaseAPI {
+    public static token;
 
     private middleware: Middleware[];
+    private context: Component<any, LoaderState>;
 
-    constructor(protected configuration = new Configuration()) {
-        this.middleware = configuration.middleware;
+    constructor(context: Component<any, LoaderState>, protected configuration = null) {
+        if (configuration == null) {
+            this.configuration = new Configuration({accessToken: BaseAPI.token});
+        }
+        this.context = context;
+        this.middleware = this.configuration.middleware;
+    }
+
+    static setToken(token: string) {
+        console.log("Save token for BaseAPI: -> " + token);
+        BaseAPI.token = 'Bearer ' + token;
+    }
+
+    static deleteToken() {
+        console.log("Deleting token for BaseAPI");
+        BaseAPI.token = null;
     }
 
     withMiddleware<T extends BaseAPI>(this: T, ...middlewares: Middleware[]) {
@@ -34,17 +54,17 @@ export class BaseAPI {
     }
 
     withPreMiddleware<T extends BaseAPI>(this: T, ...preMiddlewares: Array<Middleware['pre']>) {
-        const middlewares = preMiddlewares.map((pre) => ({ pre }));
+        const middlewares = preMiddlewares.map((pre) => ({pre}));
         return this.withMiddleware<T>(...middlewares);
     }
 
     withPostMiddleware<T extends BaseAPI>(this: T, ...postMiddlewares: Array<Middleware['post']>) {
-        const middlewares = postMiddlewares.map((post) => ({ post }));
+        const middlewares = postMiddlewares.map((post) => ({post}));
         return this.withMiddleware<T>(...middlewares);
     }
 
     protected async request(context: RequestOpts): Promise<Response> {
-        const { url, init } = this.createFetchParams(context);
+        const {url, init} = this.createFetchParams(context);
         const response = await this.fetchApi(url, init);
         if (response.status >= 200 && response.status < 300) {
             return response;
@@ -61,8 +81,8 @@ export class BaseAPI {
             url += '?' + this.configuration.queryParamsStringify(context.query);
         }
         const body = (context.body instanceof FormData || isBlob(context.body))
-	    ? context.body
-	    : JSON.stringify(context.body);
+            ? context.body
+            : JSON.stringify(context.body);
 
         const headers = Object.assign({}, this.configuration.headers, context.headers);
         const init = {
@@ -71,11 +91,11 @@ export class BaseAPI {
             body,
             credentials: this.configuration.credentials
         };
-        return { url, init };
+        return {url, init};
     }
 
     private fetchApi = async (url: string, init: RequestInit) => {
-        let fetchParams = { url, init };
+        let fetchParams = {url, init};
         for (const middleware of this.middleware) {
             if (middleware.pre) {
                 fetchParams = await middleware.pre({
@@ -84,7 +104,12 @@ export class BaseAPI {
                 }) || fetchParams;
             }
         }
-        let response = await this.configuration.fetchApi(fetchParams.url, fetchParams.init);
+        startLoader(this.context);
+        let response = await this.configuration.fetchApi(fetchParams.url, fetchParams.init).catch(err => {
+            stopLoader(this.context);
+            throw err;
+        });
+        stopLoader(this.context);
         for (const middleware of this.middleware) {
             if (middleware.post) {
                 response = await middleware.post({
@@ -96,7 +121,7 @@ export class BaseAPI {
             }
         }
         return response;
-    }
+    };
 
     /**
      * Create a shallow clone of `this` by constructing a new instance
@@ -108,10 +133,11 @@ export class BaseAPI {
         next.middleware = this.middleware.slice();
         return next;
     }
-};
+}
 
 export class RequiredError extends Error {
     name: "RequiredError" = "RequiredError";
+
     constructor(public field: string, msg?: string) {
         super(msg);
     }
@@ -140,7 +166,8 @@ export interface ConfigurationParameters {
 }
 
 export class Configuration {
-    constructor(private configuration: ConfigurationParameters = {}) {}
+    constructor(private configuration: ConfigurationParameters = {}) {
+    }
 
     get basePath(): string {
         return this.configuration.basePath || BASE_PATH;
@@ -182,7 +209,7 @@ export class Configuration {
         return undefined;
     }
 
-    get headers():  HTTPHeaders | undefined {
+    get headers(): HTTPHeaders | undefined {
         return this.configuration.headers;
     }
 
@@ -236,10 +263,10 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
 }
 
 export function mapValues(data: any, fn: (item: any) => any) {
-  return Object.keys(data).reduce(
-    (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
-    {}
-  );
+    return Object.keys(data).reduce(
+        (acc, key) => ({...acc, [key]: fn(data[key])}),
+        {}
+    );
 }
 
 export interface RequestContext {
@@ -257,11 +284,13 @@ export interface ResponseContext {
 
 export interface Middleware {
     pre?(context: RequestContext): Promise<FetchParams | void>;
+
     post?(context: ResponseContext): Promise<Response | void>;
 }
 
 export interface ApiResponse<T> {
     raw: Response;
+
     value(): Promise<T>;
 }
 
@@ -270,7 +299,8 @@ export interface ResponseTransformer<T> {
 }
 
 export class JSONApiResponse<T> {
-    constructor(public raw: Response, private transformer: ResponseTransformer<T> = (jsonValue: any) => jsonValue) {}
+    constructor(public raw: Response, private transformer: ResponseTransformer<T> = (jsonValue: any) => jsonValue) {
+    }
 
     async value() {
         return this.transformer(await this.raw.json());
@@ -278,7 +308,8 @@ export class JSONApiResponse<T> {
 }
 
 export class VoidApiResponse {
-    constructor(public raw: Response) {}
+    constructor(public raw: Response) {
+    }
 
     async value() {
         return undefined;
@@ -286,7 +317,8 @@ export class VoidApiResponse {
 }
 
 export class BlobApiResponse {
-    constructor(public raw: Response) {}
+    constructor(public raw: Response) {
+    }
 
     async value() {
         return await this.raw.blob();
@@ -294,7 +326,8 @@ export class BlobApiResponse {
 }
 
 export class TextApiResponse {
-    constructor(public raw: Response) {}
+    constructor(public raw: Response) {
+    }
 
     async value() {
         return await this.raw.text();
