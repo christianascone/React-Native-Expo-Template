@@ -60,9 +60,14 @@ GOOGLE_API_KEY=YOUR_API_KEY
 ANDROID_GOOGLE_API_KEY=YOUR_ANDROID_API_KEY
 ```
 
-Then run the config script:
+Then run the general config script:
 ```sh
 yarn run config
+```
+
+and app config script:
+```sh
+yarn run config-app
 ```
 
 ---
@@ -73,12 +78,35 @@ yarn run config
 yarn start
 ```
 
+To start project for web run
+```bash
+yarn web
+```
+
 ### Test the project
 
 ```bash
 yarn test
 ```
 
+---
+
+### **Deploy**
+
+To deploy standalone android app:
+```bash
+expo build:android
+```
+
+To deploy standalone ios app:
+```bash
+expo build:ios
+```
+
+To update published app on expo
+```bash
+expo publish
+```
 ---
 
 ### Openapi generator
