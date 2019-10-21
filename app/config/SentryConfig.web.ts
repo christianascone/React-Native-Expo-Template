@@ -1,6 +1,13 @@
+/*
+ * Copyright (C) Christian Ascone - All Rights Reserved
+ *
+ * @project    react-native-expo-template.nosync
+ * @file       SentryConfig.web.ts
+ * @author     Christian Ascone
+ * @date       10/10/19 10:47 AM
+ */
+
 import {environment} from "../environments/environment";
-import * as Sentry from 'sentry-expo';
-import Constants from "expo-constants";
 
 const sentryDsn = environment.sentryDsn;
 const sentryEnableDevelopment = environment.sentryEnableDevelopment;
@@ -11,10 +18,5 @@ export const config = {
 };
 
 export function sentrySetup() {
-    Sentry.init({
-        dsn: config.sentryDsn,
-        enableInExpoDevelopment: config.sentryEnableDevelopment,
-        debug: true
-    });
-    Sentry.setRelease(Constants.manifest.revisionId);
+    // Dummy
 }

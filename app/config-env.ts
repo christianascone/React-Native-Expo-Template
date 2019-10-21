@@ -7,26 +7,32 @@
  * @date       9/14/19 4:42 PM
  */
 
-const fs = require('fs');
+import fs = require('fs');
 
 require('dotenv').config();
 const environment = process.env.ENVIRONMENT;
 
 let targetPath;
+let envFileName;
+let webEnvFileName;
 let debugRoom = process.env.DEBUG_ROOM;
 let apiURL = process.env.ENDPOINT;
 let oauthClientId = process.env.OAUTH_CLIENT_ID;
 let oauthClientSecret = process.env.OAUTH_CLIENT_SECRET;
 let sentryDsn = process.env.SENTRY_DSN;
 let sentryEnableDevelopment = process.env.SENTRY_ENABLE_DEVELOPMENT;
+let googleApiKey = process.env.GOOGLE_API_KEY;
 
 const isProduction = environment === 'production';
 
-if (isProduction) {
-    targetPath = `./app/environments/environment.prod.ts`;
+targetPath = `./app/environments/`;
 
+if (isProduction) {
+    envFileName = `environment.prod.ts`;
+    webEnvFileName = `webEnvironment.prod.js`;
 } else {
-    targetPath = `./app/environments/environment.ts`;
+    envFileName = `environment.ts`;
+    webEnvFileName = `webEnvironment.js`;
     apiURL = process.env.ENDPOINT;
 }
 
@@ -39,9 +45,25 @@ export const environment = {
     oauthClientSecret: '${oauthClientSecret}',
     sentryDsn: '${sentryDsn}',
     sentryEnableDevelopment: ${sentryEnableDevelopment},
+    googleApiKey: '${googleApiKey}',
 };`;
 
-fs.writeFile(targetPath, envConfigFile, function (err) {
+
+const webEnvConfigFile = `
+const web_environment = {
+    googleApiKey: '${googleApiKey}',
+};
+
+module.exports = web_environment;
+`;
+
+fs.writeFile(targetPath + envFileName, envConfigFile, function (err) {
+    if (err) {
+        console.log(err);
+    }
+});
+
+fs.writeFile(targetPath + webEnvFileName, webEnvConfigFile, function (err) {
     if (err) {
         console.log(err);
     }
