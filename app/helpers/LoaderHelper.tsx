@@ -9,6 +9,9 @@
 
 import React, {Component} from 'react';
 import {ActivityIndicator, Modal, Platform, StyleSheet, View} from 'react-native';
+import {Logger} from "./Logger";
+import Layout from "../config/Layout";
+import {Header} from "react-navigation";
 
 export function Loader(props) {
     const {
@@ -16,33 +19,42 @@ export function Loader(props) {
         ...attributes
     } = props;
 
-    return (
-        <View>
-            {Platform.OS !== 'web' &&
-            <Modal
-                transparent={true}
-                animationType={'none'}
-                visible={props.state.loading}
-                onRequestClose={() => {
-                    console.log('close modal')
-                }}>
-                <View style={styles.modalBackground}>
-                    <View style={styles.activityIndicatorWrapper}>
-                        <ActivityIndicator
-                            animating={props.state.loading}/>
+    if (Platform.OS !== 'web')
+        return (
+            <View>
+                <Modal
+                    transparent={true}
+                    animationType={'none'}
+                    visible={props.state.loading}
+                    onRequestClose={() => {
+                        console.log('close modal')
+                    }}>
+                    <View style={styles.modalBackground}>
+                        <View style={styles.activityIndicatorWrapper}>
+                            <ActivityIndicator
+                                animating={props.state.loading}/>
+                        </View>
                     </View>
-                </View>
-            </Modal>
-            }
-        </View>
-    )
-};
+                </Modal>
+            </View>
+        );
+    else if (props.state.loading)
+        return (
+            <View style={styles.webActivityIndicatorWrapper}>
+                <ActivityIndicator
+                    animating={props.state.loading}/>
+            </View>
+        );
+    else
+        return null;
+}
 
 /**
  * State interface with loading property
  */
 export interface LoaderState {
-    loading: boolean
+    loading: boolean,
+    showNoData?: boolean,
 }
 
 /**
@@ -50,7 +62,7 @@ export interface LoaderState {
  * @param {React.Component<any, LoaderState>} context
  */
 export function startLoader(context: Component<any, LoaderState>) {
-    console.log("Starting loader");
+    Logger.log(context.constructor.name, "Starting loader");
     context.setState({loading: true});
 }
 
@@ -59,7 +71,7 @@ export function startLoader(context: Component<any, LoaderState>) {
  * @param {React.Component<any, LoaderState>} context
  */
 export function stopLoader(context: Component<any, LoaderState>) {
-    console.log("Stopping loader");
+    Logger.log(context.constructor.name, "Stopping loader");
     context.setState({loading: false});
 }
 
@@ -73,13 +85,26 @@ const styles = StyleSheet.create({
     },
     activityIndicatorWrapper: {
         backgroundColor: '#FFFFFF',
-        height: 200,
-        width: 200,
-        borderRadius: 5,
+        height: 100,
+        width: 100,
+        borderRadius: 10,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-around'
-    }
+    },
+    webActivityIndicatorWrapper: {
+        zIndex: 99,
+        backgroundColor: '#00000040',
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        height: Layout.window.height - Header.HEIGHT,
+        width: Layout.window.width,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
 });
 
 export default Loader;
