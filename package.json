@@ -11,7 +11,8 @@
     "eject": "expo eject",
     "test": "jest --watchAll",
     "test-update": "jest --updateSnapshot",
-    "config": "ts-node ./app/config-env.ts"
+    "config-env": "ts-node ./app/config-env.ts",
+    "config-app": "ts-node ./app/config-app.ts"
   },
   "jest": {
     "preset": "jest-expo"
