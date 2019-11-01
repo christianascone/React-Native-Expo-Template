@@ -9,16 +9,16 @@
 
 import React, {Component} from 'react';
 import {ScrollView, View,} from 'react-native';
-import {i18n} from "../i18n/i18n";
-import loginScreenStyle from "../styles/LoginScreenStyle";
-import globalScreenStyle from "../styles/GlobalStyle";
-import {AlertHelper} from "../helpers/AlertHelper";
-import * as StorageHelper from "../helpers/StorageHelper";
-import Loader, {LoaderState} from "../helpers/LoaderHelper";
-import {AvenirBookUnderlinedText, AvenirLightGreyText, AvenirMediumPrimaryText} from "../components/StyledText";
-import {TextInputBlock} from "../components/TextInputBlock";
-import {NavigationProps} from "../helpers/NavigationHelper";
-import {ConfirmButton} from "../components/ConfirmButton";
+import {i18n} from "@i18n/i18n";
+import loginScreenStyle from "@styles/LoginScreenStyle";
+import globalScreenStyle from "@styles/GlobalStyle";
+import {AlertHelper} from "@helpers/AlertHelper";
+import * as StorageHelper from "@helpers/StorageHelper";
+import Loader, {LoaderState} from "@helpers/LoaderHelper";
+import {AvenirBookUnderlinedText, AvenirLightGreyText, AvenirMediumPrimaryText} from "@components/StyledText";
+import {TextInputBlock} from "@components/TextInputBlock";
+import {NavigationProps} from "@helpers/NavigationHelper";
+import {ConfirmButton} from "@components/ConfirmButton";
 import {environment} from "../environments/environment";
 import {OauthApi} from "../services/src/apis";
 import {OAuthRequestFromJSON} from "../services/src/models";

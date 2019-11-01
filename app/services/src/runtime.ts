@@ -1,6 +1,6 @@
 // tslint:disable
 import {environment} from "../../environments/environment";
-import {LoaderState, startLoader, stopLoader} from "../../helpers/LoaderHelper";
+import {LoaderState, startLoader, stopLoader} from "@helpers/LoaderHelper";
 import {Component} from "react";
 
 /**

@@ -10,11 +10,11 @@
 import React, {Component} from 'react';
 import {createStackNavigator} from 'react-navigation';
 import {Platform, StyleSheet, TouchableOpacity, View,} from 'react-native';
-import TabBarIcon from '../../components/TabBarIcon';
+import TabBarIcon from '@components/TabBarIcon';
 import MainScreen from "../../screens/MainScreen";
 import LoginScreen from "../../screens/LoginScreen";
-import {LeftArrowImage} from "../../components/Images/LeftArrowImage";
-import globalScreenStyle from "../../styles/GlobalStyle";
+import {LeftArrowImage} from "@components/Images/LeftArrowImage";
+import globalScreenStyle from "@styles/GlobalStyle";
 
 const config = Platform.select({
     ios: {

@@ -8,7 +8,7 @@
  */
 
 import {Alert, Platform} from "react-native";
-import {i18n} from "../i18n/i18n";
+import {i18n} from "@i18n/i18n";
 import {GenericHelper} from "./GenericHelper";
 
 export class AlertHelper {

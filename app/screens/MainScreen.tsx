@@ -10,18 +10,18 @@
 import React, {Component} from 'react';
 import {ScrollView, View,} from 'react-native';
 
-import {AvenirLightGreyText} from '../components/StyledText';
-import {i18n} from "../i18n/i18n";
-import mainScreenStyle from "../styles/MainScreenStyle";
-import globalScreenStyle from "../styles/GlobalStyle";
-import {TextInputBlock} from "../components/TextInputBlock";
-import {ConfirmButton} from "../components/ConfirmButton";
-import {LogoImage} from "../components/Images/LogoImage";
+import {AvenirLightGreyText} from '@components/StyledText';
+import {i18n} from "@i18n/i18n";
+import mainScreenStyle from "@styles/MainScreenStyle";
+import globalScreenStyle from "@styles/GlobalStyle";
+import {TextInputBlock} from "@components/TextInputBlock";
+import {ConfirmButton} from "@components/ConfirmButton";
+import {LogoImage} from "@components/Images/LogoImage";
 import {validateEmail} from "../modules/Validator";
-import {AlertHelper} from "../helpers/AlertHelper";
+import {AlertHelper} from "@helpers/AlertHelper";
 import {UsersApi} from "../services/src/apis";
-import Loader, {LoaderState} from "../helpers/LoaderHelper";
-import {NavigationProps, openLogin} from "../helpers/NavigationHelper";
+import Loader, {LoaderState} from "@helpers/LoaderHelper";
+import {NavigationProps, openLogin} from "@helpers/NavigationHelper";
 import {environment} from "../environments/environment";
 
 interface State extends LoaderState {

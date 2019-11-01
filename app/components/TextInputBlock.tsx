@@ -9,7 +9,7 @@
 
 import React from 'react';
 import {TextInput, View} from 'react-native';
-import TextStyle from '../styles/TextStyle';
+import TextStyle from '@styles/TextStyle';
 import {AvenirBookUpperLabelText} from "./StyledText";
 
 export function TextInputBlock(props) {

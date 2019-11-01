@@ -11,11 +11,11 @@ import * as WebBrowser from 'expo-web-browser';
 import React, {Component} from 'react';
 import {Image, ScrollView, Text, TouchableOpacity, View,} from 'react-native';
 
-import {AvenirMediumText} from '../components/StyledText';
-import {i18n} from "../i18n/i18n";
-import homeScreenStyle from "../styles/HomeScreenStyle";
-import globalScreenStyle from "../styles/GlobalStyle";
-import {LoaderState} from "../helpers/LoaderHelper";
+import {AvenirMediumText} from '@components/StyledText';
+import {i18n} from "@i18n/i18n";
+import homeScreenStyle from "@styles/HomeScreenStyle";
+import globalScreenStyle from "@styles/GlobalStyle";
+import {LoaderState} from "@helpers/LoaderHelper";
 
 interface State extends LoaderState{
     myText: string,

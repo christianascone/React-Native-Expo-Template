@@ -12,7 +12,7 @@ import * as Permissions from 'expo-permissions';
 import {UserTokensApi} from "../services/src/apis";
 import {UserTokenOs} from "../services/src/models";
 import {Platform} from "react-native";
-import {LoaderState} from "../helpers/LoaderHelper";
+import {LoaderState} from "@helpers/LoaderHelper";
 import {Component} from "react";
 
 /**

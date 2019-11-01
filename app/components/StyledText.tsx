@@ -10,7 +10,7 @@
 import React from 'react';
 import {Text} from 'react-native';
 import * as Fonts from "../config/Fonts";
-import TextStyle from "../styles/TextStyle";
+import TextStyle from "@styles/TextStyle";
 
 export function AvenirBookText(props) {
     return (

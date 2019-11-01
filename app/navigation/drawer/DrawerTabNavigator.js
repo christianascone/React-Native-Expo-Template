@@ -10,7 +10,7 @@
 import React, {Component} from 'react';
 import {createDrawerNavigator, createStackNavigator} from 'react-navigation';
 import {Dimensions, Image, Platform, TouchableOpacity, View,} from 'react-native';
-import TabBarIcon from '../../components/TabBarIcon';
+import TabBarIcon from '@components/TabBarIcon';
 import HomeScreen from '../../screens/HomeScreen';
 import LinksScreen from '../../screens/LinksScreen';
 import SettingsScreen from '../../screens/SettingsScreen';

@@ -9,7 +9,7 @@
 
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import ButtonStyle from "../styles/ButtonStyle";
+import ButtonStyle from "@styles/ButtonStyle";
 
 export function ConfirmButton(props) {
     return (
