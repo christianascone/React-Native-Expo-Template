@@ -6,6 +6,16 @@ module.exports = function (api) {
             ['@babel/preset-env', {targets: {node: 'current'}}],
             '@babel/preset-typescript',
         ],
-        "sourceType": "unambiguous"
+        "sourceType": "unambiguous",
+        plugins: [
+            ["module-resolver", {
+                "alias": {
+                    "@components": "./app/components",
+                    "@styles": "./app/styles",
+                    "@helpers": "./app/helpers",
+                    "@i18n": "./app/i18n",
+                }
+            }],
+        ]
     };
 };

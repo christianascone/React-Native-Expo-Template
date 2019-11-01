@@ -18,7 +18,22 @@
     ],
     "typeRoots": [
       "node_modules/@types"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": [
+        "./app/components/*"
+      ],
+      "@helpers/*": [
+        "./app/helpers/*"
+      ],
+      "@styles/*": [
+        "./app/styles/*"
+      ],
+      "@i18n/*": [
+        "./app/i18n/*"
+      ]
+    }
   },
   "exclude": [
     "dist",
